@@ -1,3 +1,5 @@
+steem.api.setOptions({ url: 'https://api.steem.buzz' });
+
 let myPosts = [];
 function getTransactions(account, start, spv, transactions = new Map(), totalCurationMap = new Map(), totalPayoutMap = new Map(), commentReceived = 0, commentSent = 0) {
   return new Promise((resolve, reject) => {
