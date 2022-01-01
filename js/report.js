@@ -560,7 +560,7 @@ async function postToSteem() {
   const tags = "cn,steem2021";
   const tagsList = tags.split(',');
   const url = await getImageUrl();
-  const ending = `\n\n---\n想查看自己2021年度STEEM小结？\n链接: https://ericet.github.io/SteemReports\n`
+  const ending = `\n\n---\n想查看自己2021年度STEEM小结？\n链接: https://reports.steem.buzz\n`
   let body = `我的STEEM 2021 \n![](${url})\n## 2021年所有的帖子:\n`;
   for (let post of myPosts) {
     body = body + `* (${getFormattedDate(post.created)}) [${post.title}](https://steem.buzz/@${post.author}/${post.permlink})\n`;
