@@ -113,21 +113,31 @@ function getUserPosts(account, posts = [], start_permlink = '') {
         0, 1, 1);
       let lastDay = new Date(2022,
         0, 1);
-      for (var i in discussions) {
-        if (new Date(discussions[i].created + 'Z') >= firstDay.getTime() && new Date(discussions[i].created + 'Z') <= lastDay.getTime() && discussions[i].author == account) {
+      if (discussions.length < 100) {
+        for (let i in discussions) {
           var data = discussions[i];
           if (posts.length == 0 || posts[posts.length - 1].permlink != data.permlink) {
             posts.push(data);
           }
-        } else if (new Date(discussions[i].created + 'Z') < firstDay.getTime()) {
-          resolve(posts);
-          return;
         }
-      }
-      if (new Date(posts[posts.length - 1].created + "Z") >= firstDay.getTime()) {
-        getUserPosts(account, posts, posts[posts.length - 1].permlink).then(resolve).catch(reject);
+        resolve(posts)
       } else {
-        resolve(posts);
+        for (var i in discussions) {
+          if (new Date(discussions[i].created + 'Z') >= firstDay.getTime() && new Date(discussions[i].created + 'Z') <= lastDay.getTime() && discussions[i].author == account) {
+            var data = discussions[i];
+            if (posts.length == 0 || posts[posts.length - 1].permlink != data.permlink) {
+              posts.push(data);
+            }
+          } else if (new Date(discussions[i].created + 'Z') < firstDay.getTime()) {
+            resolve(posts);
+            return;
+          }
+        }
+        if (new Date(posts[posts.length - 1].created + "Z") >= firstDay.getTime()) {
+          getUserPosts(account, posts, posts[posts.length - 1].permlink).then(resolve).catch(reject);
+        } else {
+          resolve(posts);
+        }
       }
     });
   });
@@ -205,7 +215,7 @@ $(document).ready(async function () {
   $('#spinner').html(`<div class="animationload">
     <div class="osahanloading"></div>
 </div>`);
-  Promise.all([getUserPosts(account), getTransactions(account, -1, spv),getReputation(account)]).then(async ([posts, transactions,reputation]) => {
+  Promise.all([getUserPosts(account), getTransactions(account, -1, spv), getReputation(account)]).then(async ([posts, transactions, reputation]) => {
     myPosts = posts;
     let postsCount = posts.length;
     let postsList = displayPostsList(posts);
