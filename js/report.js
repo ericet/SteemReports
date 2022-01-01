@@ -4,7 +4,8 @@ let myPosts = [];
 function getTransactions(account, start, spv, transactions = new Map(), totalCurationMap = new Map(), totalPayoutMap = new Map(), commentReceived = 0, commentSent = 0) {
   return new Promise((resolve, reject) => {
     let last_trans = start;
-    console.log(`Loading account history for ${account} at transaction: ` + (start < 0 ? 'latest' : start));
+    let text = `Loading account history at transaction: <b>` + (start < 0 ? 'latest' : start+'</b>');
+    $('#text').html(text);
     let firstDay = new Date(2021,
       0, 1, 1);
     let lastDay = new Date(2022,
@@ -109,35 +110,41 @@ function getUserPosts(account, posts = [], start_permlink = '') {
       limit: 100
     };
     steem.api.getDiscussionsByBlog(query, function (err, discussions) {
-      let firstDay = new Date(2021,
-        0, 1, 1);
-      let lastDay = new Date(2022,
-        0, 1);
-      if (discussions.length < 100) {
-        for (let i in discussions) {
-          var data = discussions[i];
-          if (posts.length == 0 || posts[posts.length - 1].permlink != data.permlink) {
-            posts.push(data);
-          }
-        }
-        resolve(posts)
-      } else {
-        for (var i in discussions) {
-          if (new Date(discussions[i].created + 'Z') >= firstDay.getTime() && new Date(discussions[i].created + 'Z') <= lastDay.getTime() && discussions[i].author == account) {
+      if (!err && discussions) {
+        let firstDay = new Date(2021,
+          0, 1, 1);
+        let lastDay = new Date(2022,
+          0, 1);
+        if (discussions.length < 100) {
+          for (let i in discussions) {
             var data = discussions[i];
             if (posts.length == 0 || posts[posts.length - 1].permlink != data.permlink) {
               posts.push(data);
             }
-          } else if (new Date(discussions[i].created + 'Z') < firstDay.getTime()) {
+          }
+          resolve(posts)
+        } else {
+          for (var i in discussions) {
+            if (new Date(discussions[i].created + 'Z') >= firstDay.getTime() && new Date(discussions[i].created + 'Z') <= lastDay.getTime() && discussions[i].author == account) {
+              var data = discussions[i];
+              if (posts.length == 0 || posts[posts.length - 1].permlink != data.permlink) {
+                posts.push(data);
+              }
+            } else if (new Date(discussions[i].created + 'Z') < firstDay.getTime()) {
+              resolve(posts);
+              return;
+            }
+          }
+          if (new Date(posts[posts.length - 1].created + "Z") >= firstDay.getTime()) {
+            getUserPosts(account, posts, posts[posts.length - 1].permlink).then(resolve).catch(reject);
+          } else {
             resolve(posts);
-            return;
           }
         }
-        if (new Date(posts[posts.length - 1].created + "Z") >= firstDay.getTime()) {
-          getUserPosts(account, posts, posts[posts.length - 1].permlink).then(resolve).catch(reject);
-        } else {
-          resolve(posts);
-        }
+      } else {
+        console.log("ERROR: " + err);
+        alert("出错！请刷新页面!");
+        $('#spinner').hide();
       }
     });
   });
@@ -214,6 +221,7 @@ $(document).ready(async function () {
   let spv = await getSpv();
   $('#spinner').html(`<div class="animationload">
     <div class="osahanloading"></div>
+    <div id ="text" class="loadingText">Loading</div>
 </div>`);
   Promise.all([getUserPosts(account), getTransactions(account, -1, spv), getReputation(account)]).then(async ([posts, transactions, reputation]) => {
     myPosts = posts;
@@ -241,7 +249,7 @@ $(document).ready(async function () {
     let commentSent = transactions.get('comment_sent');
     $('#spinner').hide();
     $('#stats').html(`<div>
- <table border="0" cellpadding="0" cellspacing="0" style="margin-left:auto;margin-right:auto" width="80%">
+ <table border="0" cellpadding="0" cellspacing="0" style="margin-left:auto;margin-right:auto" width="100%">
    <tbody>
      <tr>
        <td align="center" valign="top">

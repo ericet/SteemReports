@@ -109,3 +109,12 @@ img {
     padding-left: 20px;
     padding-right: 20px;
   }
+
+
+  .loadingText {
+    position: relative;
+float: left;
+top: 60%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
