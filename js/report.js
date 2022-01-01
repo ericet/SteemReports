@@ -1,4 +1,4 @@
-steem.api.setOptions({ url: 'https://api.steem.buzz' });
+steem.api.setOptions({ url: 'https://steem.justyy.workers.dev' });
 
 let myPosts = [];
 function getTransactions(account, start, spv, transactions = new Map(), totalCurationMap = new Map(), totalPayoutMap = new Map(), commentReceived = 0, commentSent = 0) {
@@ -12,8 +12,8 @@ function getTransactions(account, start, spv, transactions = new Map(), totalCur
     steem.api.getAccountHistory(account, start, (start < 0) ? 10000 : Math.min(start, 10000), function (err, result) {
       if (err) {
         console.log(`ERROR: Failed loading data for ${account}`);
-        console.log(err);
-        getTransactions(account, -1, spv);
+        alert("出错！请刷新页面!");
+        // getTransactions(account, -1, spv);
       }
 
       result.reverse();
