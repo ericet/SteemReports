@@ -11,7 +11,7 @@ $('#view').submit(async function (e) {
     if (username) {
         let isFound = await checkAccountName(username);
         if (isFound) {
-            window.location.href = "/report.html?account=" + username;
+            window.location.href = "./report.html?account=" + username;
         }else{
             alert("STEEM ID Not Found!");
             $("#username").focus();
