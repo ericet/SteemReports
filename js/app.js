@@ -1,4 +1,4 @@
-steem.api.setOptions({ url: 'https://steem.justyy.workers.dev' });
+steem.api.setOptions({ url: 'https://steem.senior.workers.dev' });
 // Checking if the already exists
 async function checkAccountName(username) {
     const [ac] = await steem.api.getAccountsAsync([username]);
