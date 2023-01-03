@@ -1,4 +1,4 @@
-steem.api.setOptions({ url: 'https://steem.justyy.workers.dev' });
+steem.api.setOptions({ url: 'https://api.campingclub.me' });
 
 let myPosts = [];
 function getTransactions(account, start, spv, transactions = new Map(), totalCurationMap = new Map(), totalPayoutMap = new Map(), commentReceived = 0, commentSent = 0) {
@@ -6,9 +6,9 @@ function getTransactions(account, start, spv, transactions = new Map(), totalCur
     let last_trans = start;
     let text = `Loading account history at transaction: <b>` + (start < 0 ? 'latest' : start+'</b>');
     $('#text').html(text);
-    let firstDay = new Date(2021,
+    let firstDay = new Date(2022,
       0, 1, 1);
-    let lastDay = new Date(2022,
+    let lastDay = new Date(2023,
       0, 1);
     steem.api.getAccountHistory(account, start, (start < 0) ? 10000 : Math.min(start, 10000), function (err, result) {
       if (err) {
@@ -111,9 +111,9 @@ function getUserPosts(account, posts = [], start_permlink = '') {
     };
     steem.api.getDiscussionsByBlog(query, function (err, discussions) {
       if (!err && discussions) {
-        let firstDay = new Date(2021,
+        let firstDay = new Date(2022,
           0, 1, 1);
-        let lastDay = new Date(2022,
+        let lastDay = new Date(2023,
           0, 1);
         if (discussions.length < 100) {
           for (let i in discussions) {
@@ -217,7 +217,7 @@ $(document).ready(async function () {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   let account = urlParams.get('account');
-  document.title = `${account}的2021年度小结`;
+  document.title = `${account}的2022年度小结`;
   let spv = await getSpv();
   $('#spinner').html(`<div class="animationload">
     <div class="osahanloading"></div>
@@ -294,7 +294,7 @@ $(document).ready(async function () {
                                                          <div
                                                            style="font-size:28px;font-weight:bold;color:#ffffff;margin-top:24px;">
                                                            ${account}
-                                                           2021年度STEEM报告
+                                                           2022年度STEEM报告
                                                           </div>
                                                        </font>
                                                      </div>
@@ -478,7 +478,7 @@ $(document).ready(async function () {
                                                            </tbody>
                                                          </table>
                                                          <div data-html2canvas-ignore="true">
-                                                         2021年度所有帖子
+                                                         2022年度所有帖子
                                                          <hr
                                                          style="margin-bottom:0px;color:#e6e6e6;border-color:#e6e6e6;border-style:solid;">
                                                        <table width="100%" border="0" cellspacing="0"
@@ -577,11 +577,11 @@ async function postToSteem() {
   const steemid = document.getElementById("steemid").value;
   const postingKey = document.getElementById("postingKey").value;
   const title = document.title;
-  const tags = "cn,steem2021";
+  const tags = "cn,steem2022";
   const tagsList = tags.split(',');
   const url = await getImageUrl();
-  const ending = `\n\n---\n想查看自己2021年度STEEM小结？\n链接: https://reports.steem.buzz\n`
-  let body = `我的STEEM 2021 \n![](${url})\n## 2021年所有的帖子:\n`;
+  const ending = `\n\n---\n想查看自己2022年度STEEM小结？\n链接: https://reports.steem.buzz\n`
+  let body = `我的STEEM 2022 \n![](${url})\n## 2022年所有的帖子:\n`;
   for (let post of myPosts) {
     body = body + `* (${getFormattedDate(post.created)}) [${post.title}](https://steem.buzz/@${post.author}/${post.permlink})\n`;
   }
