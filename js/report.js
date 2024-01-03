@@ -155,7 +155,7 @@ function getCryptoPriceHistory(symbol) {
       if (!error && response.status == 200) {
         let data = response.data;
         console.log(data);
-        resolve(data.tickers[0].last);
+        resolve(data.tickers[0].converted_last.usd);
       } else {
         reject('get price error');
       }
@@ -218,7 +218,7 @@ $(document).ready(async function () {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   let account = urlParams.get('account');
-  document.title = `${account}的2022年度小结`;
+  document.title = `${account}的2023年度小结`;
   let spv = await getSpv();
   $('#spinner').html(`<div class="animationload">
     <div class="osahanloading"></div>
@@ -228,8 +228,8 @@ $(document).ready(async function () {
     myPosts = posts;
     let postsCount = posts.length;
     let postsList = displayPostsList(posts);
-    let sbdPrice = await getCryptoPriceHistory("SBD");
-    let steemPrice = await getCryptoPriceHistory("STEEM");
+    let sbdPrice = await getCryptoPriceHistory("steem-dollar");
+    let steemPrice = await getCryptoPriceHistory("steem");
     let author_reward_sbd = parseFloat(transactions.get('author_reward_sbd')) > 0 ? parseFloat(transactions.get('author_reward_sbd')) : 0;
     let author_reward_sp = parseFloat(transactions.get('author_reward_sp')) > 0 ? parseFloat(transactions.get('author_reward_sp')) : 0;
     let author_reward_steem = parseFloat(transactions.get('author_reward_steem')) > 0 ? parseFloat(transactions.get('author_reward_steem')) : 0;
