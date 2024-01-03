@@ -151,10 +151,11 @@ function getUserPosts(account, posts = [], start_permlink = '') {
 }
 function getCryptoPriceHistory(symbol) {
   return new Promise(async function (resolve, reject) {
-    axios.get(`https://min-api.cryptocompare.com/data/histoday?fsym=${symbol}&tsym=USD&limit=6`).then(function (response, error) {
+    axios.get(`https://api.coingecko.com/api/v3/coins/${symbol.toLowerCase()}/tickers`).then(function (response, error) {
       if (!error && response.status == 200) {
         let data = response.data;
-        resolve(data.Data[data.Data.length - 1].close);
+        console.log(data);
+        resolve(data.tickers[0].last);
       } else {
         reject('get price error');
       }
@@ -187,7 +188,7 @@ function getSpv() {
 const displayPostsList = (posts) => {
   let display = '';
   posts.forEach(post => {
-    display += buildPostsListTemplate(post.root_title, `https://steem.buzz${post.url}`, post.pending_payout_value.split(" ")[0] > 0 ? post.pending_payout_value.split(" ")[0] : (Number(post.total_payout_value.split(" ")[0]) + Number(post.curator_payout_value.split(" ")[0])).toFixed(2), post.created);
+    display += buildPostsListTemplate(post.root_title, `https://steemcn.xyz{post.url}`, post.pending_payout_value.split(" ")[0] > 0 ? post.pending_payout_value.split(" ")[0] : (Number(post.total_payout_value.split(" ")[0]) + Number(post.curator_payout_value.split(" ")[0])).toFixed(2), post.created);
   });
   return display;
 }
@@ -580,10 +581,10 @@ async function postToSteem() {
   const tags = "cn,steem2022";
   const tagsList = tags.split(',');
   const url = await getImageUrl();
-  const ending = `\n\n---\n想查看自己2022年度STEEM小结？\n链接: https://reports.steem.buzz\n`
+  const ending = `\n\n---\n想查看自己2022年度STEEM小结？\n链接: https://reports.steemcn.xyz\n`
   let body = `我的STEEM 2022 \n![](${url})\n## 2022年所有的帖子:\n`;
   for (let post of myPosts) {
-    body = body + `* (${getFormattedDate(post.created)}) [${post.title}](https://steem.buzz/@${post.author}/${post.permlink})\n`;
+    body = body + `* (${getFormattedDate(post.created)}) [${post.title}](https://steemcn.xyz/@${post.author}/${post.permlink})\n`;
   }
   body += ending;
   let category = tagsList[0];
@@ -608,7 +609,7 @@ async function postToSteem() {
     steem_keychain.requestPost(steemid, title, body, category, '', json_metadata, permlink, comment_options, function (response) {
       if (response.success) {
         $('#message').html(`<div class="alert alert-success" role="alert">
-        Post has been published! <a href="https://steem.buzz/@${steemid}/${permlink}">Click here to view the post</a>
+        Post has been published! <a href="https://steemcn.xyz/@${steemid}/${permlink}">Click here to view the post</a>
       </div>`);
       } else {
         $('#message').html(`<div class="alert alert-danger" role="alert">
@@ -662,7 +663,7 @@ function post(title, content, category, tagsList, beneficiaries, author, posting
           </div>`);
       } else {
         $('#message').html(`<div class="alert alert-success" role="alert">
-            Post has been published! <a href="https://steem.buzz/@${author}/${permlink}">Click here to view the post</a>
+            Post has been published! <a href="https://steemcn.xyz/@${author}/${permlink}">Click here to view the post</a>
           </div>`);
       }
 
