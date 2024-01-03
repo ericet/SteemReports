@@ -578,7 +578,7 @@ async function postToSteem() {
   const steemid = document.getElementById("steemid").value;
   const postingKey = document.getElementById("postingKey").value;
   const title = document.title;
-  const tags = "cn,steem2022";
+  const tags = "cn,steem2023";
   const tagsList = tags.split(',');
   const url = await getImageUrl();
   const ending = `\n\n---\n想查看自己2022年度STEEM小结？\n链接: https://reports.steemcn.xyz\n`
