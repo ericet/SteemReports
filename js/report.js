@@ -6,9 +6,9 @@ function getTransactions(account, start, spv, transactions = new Map(), totalCur
     let last_trans = start;
     let text = `Loading account history at transaction: <b>` + (start < 0 ? 'latest' : start+'</b>');
     $('#text').html(text);
-    let firstDay = new Date(2022,
+    let firstDay = new Date(2023,
       0, 1, 1);
-    let lastDay = new Date(2023,
+    let lastDay = new Date(2024,
       0, 1);
     steem.api.getAccountHistory(account, start, (start < 0) ? 10000 : Math.min(start, 10000), function (err, result) {
       if (err) {
