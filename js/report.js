@@ -111,9 +111,9 @@ function getUserPosts(account, posts = [], start_permlink = '') {
     };
     steem.api.getDiscussionsByBlog(query, function (err, discussions) {
       if (!err && discussions) {
-        let firstDay = new Date(2022,
+        let firstDay = new Date(2023,
           0, 1, 1);
-        let lastDay = new Date(2023,
+        let lastDay = new Date(2024,
           0, 1);
         if (discussions.length < 100) {
           for (let i in discussions) {
@@ -479,7 +479,7 @@ $(document).ready(async function () {
                                                            </tbody>
                                                          </table>
                                                          <div data-html2canvas-ignore="true">
-                                                         2022年度所有帖子
+                                                         2023年度所有帖子
                                                          <hr
                                                          style="margin-bottom:0px;color:#e6e6e6;border-color:#e6e6e6;border-style:solid;">
                                                        <table width="100%" border="0" cellspacing="0"
@@ -581,8 +581,8 @@ async function postToSteem() {
   const tags = "cn,steem2023";
   const tagsList = tags.split(',');
   const url = await getImageUrl();
-  const ending = `\n\n---\n想查看自己2022年度STEEM小结？\n链接: https://reports.steemcn.xyz\n`
-  let body = `我的STEEM 2022 \n![](${url})\n## 2022年所有的帖子:\n`;
+  const ending = `\n\n---\n想查看自己2023年度STEEM小结？\n链接: https://reports.steemcn.xyz\n`
+  let body = `我的STEEM 2023 \n![](${url})\n## 2023年所有的帖子:\n`;
   for (let post of myPosts) {
     body = body + `* (${getFormattedDate(post.created)}) [${post.title}](https://steemcn.xyz/@${post.author}/${post.permlink})\n`;
   }
