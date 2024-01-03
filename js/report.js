@@ -228,7 +228,7 @@ $(document).ready(async function () {
     myPosts = posts;
     let postsCount = posts.length;
     let postsList = displayPostsList(posts);
-    let sbdPrice = await getCryptoPriceHistory("steem-dollar");
+    let sbdPrice = await getCryptoPriceHistory("steem-dollars");
     let steemPrice = await getCryptoPriceHistory("steem");
     let author_reward_sbd = parseFloat(transactions.get('author_reward_sbd')) > 0 ? parseFloat(transactions.get('author_reward_sbd')) : 0;
     let author_reward_sp = parseFloat(transactions.get('author_reward_sp')) > 0 ? parseFloat(transactions.get('author_reward_sp')) : 0;
@@ -295,7 +295,7 @@ $(document).ready(async function () {
                                                          <div
                                                            style="font-size:28px;font-weight:bold;color:#ffffff;margin-top:24px;">
                                                            ${account}
-                                                           2022年度STEEM报告
+                                                           2023年度STEEM报告
                                                           </div>
                                                        </font>
                                                      </div>
